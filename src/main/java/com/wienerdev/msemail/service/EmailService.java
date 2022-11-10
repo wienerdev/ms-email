@@ -24,7 +24,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public ResponseEntity<EmailModel> sendEmail(EmailDTO emailDTO) {
+    public EmailModel sendEmail(EmailDTO emailDTO) {
         EmailModel emailModel = new EmailModel();
         BeanUtils.copyProperties(emailDTO, emailModel);
         emailModel.setSendDateEmail(LocalDateTime.now());
@@ -34,7 +34,7 @@ public class EmailService {
         } catch (MailException e) {
             emailModel.setStatusEmail(StatusEmail.ERROR);
         } finally {
-            return new ResponseEntity<>(emailRepository.save(emailModel), HttpStatus.CREATED);
+            return emailRepository.save(emailModel);
         }
     }
 
